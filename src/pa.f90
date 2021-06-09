@@ -1,3 +1,21 @@
+! harmonic inversion
+! Program for harmonic inversion analysis
+!
+! Copyright (C) 2014  Jacob Fuchs
+!
+! This program is free software: you can redistribute it and/or modify
+! it under the terms of the GNU General Public License as published by
+! the Free Software Foundation, either version 3 of the License, or
+! (at your option) any later version.
+!
+! This program is distributed in the hope that it will be useful,
+! but WITHOUT ANY WARRANTY; without even the implied warranty of
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+! GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License
+! along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 module pa
   use myKinds
   implicit none
@@ -65,7 +83,7 @@ contains
     complex(dp), dimension(N), intent(out) :: z,w,d
     ! corresponding degree of degeneration
     integer, dimension(N), intent(out) :: z_dod
-    
+
     ! coefficients of the polynomials P and Q
     complex(dp), dimension(K) :: a,b
 
@@ -331,7 +349,7 @@ contains
 
     complex(dp), dimension(N), intent(inout) :: z
     integer, dimension(N), intent(out) :: z_dod
-    
+
     integer :: i
 
     complex(dp), dimension(K) :: a
@@ -459,13 +477,13 @@ contains
           i = i + v(i)
        end do
     end if
-    
+
     if(EV_count /= K) then
        write(0,*) "error while sorting the eigenvalues:&
             & number of eigenvalues (",EV_count,") do not match", K
        call exit(2)
     end if
-    
+
   end subroutine pa_compareL
 
   ! calculate energies from frequencies
@@ -623,10 +641,10 @@ contains
           i = i + z_dod(i)
           cycle
        end if
-       
+
        ! avoid endless loops
        i = i + 1
-       
+
     end do
 
   end subroutine pa_amplit
@@ -649,7 +667,7 @@ contains
 
     array(0) = (0_dp,0_dp)
     array(1:K) = b(1:K)
-    
+
     pa_P = pa_math_polynom_taylor_cdp(K, array, x, d)
 
   end function pa_P
@@ -668,7 +686,7 @@ contains
 
     array(0) = (-1_dp,0_dp)
     array(1:K) = a(1:K)
-    
+
     pa_Q = pa_math_polynom_taylor_cdp(K, array, x, d)
 
   end function pa_Q
@@ -884,7 +902,7 @@ contains
 
     integer :: i
     real(dp) :: out
-    
+
     pa_math_stirling2_part = 0_dp
 
     if(k > n .or. k < 0) return
@@ -898,7 +916,7 @@ contains
        end if
     end do
     pa_math_stirling2_part = abs(out)
-    
+
   end function pa_math_stirling2_part
 
   ! binomial coeffizients
@@ -954,7 +972,7 @@ contains
        end do
     end do
     pa_math_polynom_taylor = b(d,d+1)
-    
+
   end function pa_math_polynom_taylor
 
   ! d-th derivative of polynomial with coeffizients a0,a1,...,aN at x
@@ -984,7 +1002,7 @@ contains
        end do
     end do
     pa_math_polynom_taylor_cdp = b(d,d+1)
-    
+
   end function pa_math_polynom_taylor_cdp
 
 end module pa
